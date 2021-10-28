@@ -33,22 +33,22 @@
                 <form method="post" action="/signin">
                 {{csrf_field()}}
                 <label for="ic"><b>IC</b></label>
-                <input class="form-control" name="ic" type="text" maxlength="12" required="true" value="{{ old('ic') }}"/>
+                <input class="form-control" name="ic" type="text" maxlength="12" required="true"/>
                  
                 <label for="name"><b>Name</b></label>
-                <input class="form-control" name="name" type="text" maxlength="30" required="true" value="{{ old('name') }}"/>
+                <input class="form-control" name="name" type="text" maxlength="30" required="true"/>
              
                 <label for="email"><b>Email Address</b></label>
-                <input class="form-control" name="email" type="email" maxlength="50" required="true"value="{{ old('email') }}"/>
+                <input class="form-control" name="email" type="email" maxlength="50" required="true"/>
 
                 <label for="phone"><b>Phone Number</b></label>
-                <input class="form-control" name="phoneno" type="text" maxlength="11" required="true" value="{{ old('phoneno') }}"/>
+                <input class="form-control" name="phoneno" type="text" maxlength="11" required="true"/>
                 
                 <label for="password"><b>Password</b></label>
-                <input class="form-control" name="password" type="password" maxlength="15" minlength="8" required="true" value="{{ old('password') }}"/>
+                <input class="form-control" name="password" type="password" maxlength="15" minlength="8" required="true"/>
                 
                 <label for="cPassword"><b>Confirm Password</b></label>
-                <input class="form-control" name="cPassword" type="password" maxlength="15" minlength="8" required="true" value="{{ old('password') }}"/>
+                <input class="form-control" name="cPassword" type="password" maxlength="15" minlength="8" required="true"/>
                 <hr class="mb-3">
                 <div class="row-cols-sm-1">
                 <input class="btn btn-primary" href="{{route('student.signin')}}" id="register" type="submit" name="submit" value="Sign Up"/>
