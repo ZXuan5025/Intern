@@ -18,17 +18,17 @@ use App\Http\Controllers\StudentController;
 
 Route::resource('student', StudentController::class);
 
-Route::group(['middleware'=>'customAuth'],function(){
 Route::post('register/', [StudentController::class,'home']);
 
 //Route::get('student.register', 'StudentController@register')->name('student.register');
 
-Route::post('signin/', [StudentController::class,'register']);
+Route::post('register/', [StudentController::class,'accept']);
 
-Route::post('home/', [StudentController::class,'home']);
+Route::post('home', [StudentController::class,'home']);
 
-Route::get('register', [StudentController::class,'signin']);
-});
+Route::post('signin/', [StudentController::class,'store']);
+
+Route::get('register', [StudentController::class,'register']);
 
 Route::get('signin',function(){
     return view('student.signin');
