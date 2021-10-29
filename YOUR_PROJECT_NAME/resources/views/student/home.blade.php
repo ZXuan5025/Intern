@@ -19,6 +19,9 @@
         <a class="nav-link" href="{{route('student.home')}}">About Us <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="{{route('student.contact')}}">Contact Us<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
       <a href="{{route('student.signin')}}" onclick='return alertFunction();'>Log Out</a>
       </li>
     </ul>

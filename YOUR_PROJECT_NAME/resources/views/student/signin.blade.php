@@ -21,7 +21,7 @@
                      <p>{{ \Session::get('success') }}</p>
                     </div>
                     @endif
-                <form method="post" action="/register">
+                <form method="post" action="/home">
                 {{csrf_field()}}
                     <label for="ic"><b>IC</b></label>    
                     <div class="input-group mb-3">

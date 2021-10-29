@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Model\Student;
+use App\Models\Student;
 
 use Crypt;
 use Session;
@@ -32,19 +32,29 @@ class StudentController extends Controller
         return view('student.register');
     }
 
-    //public function show()
-    //{
-        //return view('student.signin');
-    //}
+    public function show()
+    {
+        return view('student.signin');
+    }
 
-    //public function signin()
-    //{
-    //    return view('student.signin');
-    //}
+    public function signin()
+    {
+        return view('student.signin');
+    }
+
+    public function register()
+    {
+        return view('student.register');
+    }
     
     public function home()
     {
         return view('student.home');
+    }
+
+    public function contact()
+    {
+        return view('student.contact');
     }
 
     /**
@@ -53,7 +63,8 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    function register(Request $req){
+
+    function store(Request $req){
         $validateData = $req->validate([
         'ic' => 'required',
         'name' => 'required|regex:/^[a-z A-Z]+$/u',
@@ -72,7 +83,7 @@ class StudentController extends Controller
         if(sizeof($res)==0){
         $data = $req->input();
         $students = new Student;
-        $students->name = $data['ic'];
+        $students->ic = $data['ic'];
         $students->name = $data['name'];
         $students->email = $data['email'];
         $students->phoneno = $data['phoneno'];
@@ -80,15 +91,15 @@ class StudentController extends Controller
         $students->password = $encrypted_password;
         $students->save();
         $req->session()->flash('register_status','User has been registered successfully');
-        return redirect('/register');
+        return redirect()->route('student.signin')->with('success', 'Data Added');
         }
         else{
         $req->session()->flash('register_status','This IC already exists.');
-        return redirect('/register');
+        return redirect('signin');
         }
         }
 
-        function signin(Request $req){
+        function accept(Request $req){
             $validatedData = $req->validate([
             'ic' => 'required',
             'password' => 'required'
@@ -118,8 +129,9 @@ class StudentController extends Controller
             else{
             $req->session()->flash('error','Password Incorrect!!!');
             echo "IC Does not Exist.";
-            return redirect('signin');
+            return redirect('student.signin');
             }
             }
             }
+
 }
