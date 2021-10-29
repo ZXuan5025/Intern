@@ -12,7 +12,7 @@ use Crypt;
 class StudentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the students.
      *
      * @return \Illuminate\Http\Response
      */
