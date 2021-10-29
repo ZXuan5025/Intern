@@ -16,20 +16,14 @@
             <div class="d-flex justify-content-center h-100">
                 <div class="main">
                 <div class="regform"><h1>Registration</h1>
-                @if(count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                 </div>
-                 @endif
-                 @if(\Session::has('success'))
-                 <div class="alert alert-success">
-                     <p>{{ \Session::get('success') }}</p>
-                    </div>
-                    @endif
+                @if(Session::get('register_status'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{Session::get('register_status')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                @endif
                 <form method="post" action="/signin">
                 {{csrf_field()}}
                 <label for="ic"><b>IC</b></label>
