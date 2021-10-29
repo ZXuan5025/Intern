@@ -14,21 +14,20 @@ use App\Http\Controllers\StudentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 Route::resource('student', StudentController::class);
 
-Route::post('register/', [StudentController::class,'home']);
+//Route::post('register/', [StudentController::class,'accept']);
 
-//Route::get('student.register', 'StudentController@register')->name('student.register');
+Route::any('home/', [StudentController::class,'home']);
 
-Route::post('register/', [StudentController::class,'accept']);
+//Route::get('register', [StudentController::class,'register']);
 
-Route::post('home', [StudentController::class,'home']);
+//Route::post('/',[StudentController::class,'accept']);
 
-Route::post('signin/', [StudentController::class,'store']);
+//Route::post('signin/', [StudentController::class,'store']);
 
-Route::get('register', [StudentController::class,'register']);
+Route::any('/','App\Http\Controllers\StudentController@accept');
+Route::post('signin/','App\Http\Controllers\StudentController@store');
 
 Route::get('signin',function(){
     return view('student.signin');

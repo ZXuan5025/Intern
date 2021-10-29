@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
-
-use Crypt;
 use Session;
+use Crypt;
+
 
 class StudentController extends Controller
 {
@@ -39,7 +39,7 @@ class StudentController extends Controller
 
     public function signin()
     {
-        return view('student.signin');
+       return view('student.signin');
     }
 
     public function register()
@@ -95,7 +95,7 @@ class StudentController extends Controller
         }
         else{
         $req->session()->flash('register_status','This IC already exists.');
-        return redirect('signin');
+        return redirect()->route('student.register');
         }
         }
 
@@ -115,23 +115,21 @@ class StudentController extends Controller
             if(sizeof($res)==0){
             $req->session()->flash('error','IC does not exist. Please register yourself first');
             echo "IC Does not Exist.";
-            return redirect('signin');
+            return redirect('/');
             }
             else{
-            echo "Hello";
             $encrypted_password = $result[0]->password;
             $decrypted_password = crypt::decrypt($encrypted_password);
             if($decrypted_password==$req->input('password')){
             echo "You are logged in Successfully";
             $req->session()->put('students',$result[0]->name);
-            return redirect('/');
+            return redirect()->route('student.home');
             }
             else{
             $req->session()->flash('error','Password Incorrect!!!');
             echo "IC Does not Exist.";
-            return redirect('student.signin');
+            return redirect()->route('student.signin')->with('error', 'Please try again');
             }
             }
             }
-
 }
