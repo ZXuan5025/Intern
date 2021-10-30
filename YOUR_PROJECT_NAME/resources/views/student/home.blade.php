@@ -1,4 +1,14 @@
-<html>
+<?php
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["signin"]) || $_SESSION["signin"] !== true){
+    header("location: /signin");
+    exit;
+}
+?>
+<html lang="">
     <head>
         <meta charset="UTF-8">
         <title>About Us</title>
@@ -15,6 +25,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <label class="logo">Western Library</label> 
     <ul class="navbar-nav">
+    <li class="nav-item active">
+        <a class="nav-link"><span class="sr-only">(current)</span></a>
+      </li>
       <li class="nav-item active">
         <a class="nav-link" href="{{route('student.home')}}">About Us <span class="sr-only">(current)</span></a>
       </li>
@@ -22,13 +35,14 @@
         <a class="nav-link" href="{{route('student.contact')}}">Contact Us<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-      <a href="{{route('student.signin')}}" onclick='return alertFunction();'>Log Out</a>
+      <a href="{{route('student.logout')}}" onclick='return alertFunction();'>Log Out</a>
       </li>
     </ul>
 </nav>
         <br><br>
         <section>
             <div class="container">
+            <h1 class="my-5">Hi, <b><?php echo htmlspecialchars($_SESSION["ic"]); ?></b>. Welcome back.</h1>
                 <div class="cards">
                     <div class="text-card">
                         <h3><b>What is Lorem Ipsum?</b></h3>

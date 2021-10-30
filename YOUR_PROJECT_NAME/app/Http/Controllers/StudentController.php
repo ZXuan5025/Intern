@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
 use App\Models\Student;
-use Session;
-use Crypt;
 
 
 class StudentController extends Controller
 {
     /**
-     * Display a listing of the students
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -56,7 +54,6 @@ class StudentController extends Controller
     {
         return view('student.contact');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -64,72 +61,63 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    function store(Request $req){
-        $validateData = $req->validate([
-        'ic' => 'required',
-        'name' => 'required|regex:/^[a-z A-Z]+$/u',
-        'email' => 'required|email',
-        'phoneno' => 'numeric|required',
-        'password' => 'required',
-        'cPassword' => 'required|same:password'
-        ]);
-        $result = DB::table('students')
-        ->where('ic',$req->input('ic'))
-        ->get();
+    function store(Request $request){
+        $this->validate($request, [
+            'ic'   => 'required',
+            'name'   => 'required',
+            'email'   => 'required|email',
+            'phoneno'   => 'required',
+            'password'  => 'required'
+           ]);
+
+        $ic = $request->input('ic');
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $phoneno = $request->input('phoneno');
+        $password = $request->input('password');
+        $cpassword = $request->input('cPassword');
         
-        $res = json_decode($result,true);
-        print_r($res);
-        
-        if(sizeof($res)==0){
-        $data = $req->input();
-        $students = new Student;
-        $students->ic = $data['ic'];
-        $students->name = $data['name'];
-        $students->email = $data['email'];
-        $students->phoneno = $data['phoneno'];
-        $encrypted_password = crypt::encrypt($data['password']);
-        $students->password = $encrypted_password;
-        $students->save();
-        $req->session()->flash('register_status','User has been registered successfully');
-        return redirect()->route('student.signin')->with('success', 'Data Added');
+        if($password==$cpassword){
+        $data=array('ic'=>$ic,"name"=>$name,"email"=>$email,"phoneno"=>$phoneno,"password"=>$password);
+        session_start();
+            $_SESSION["signin"] = true;
+            $_SESSION["ic"] = $ic; 
+        DB::table('students')->insert($data);
+        echo "<script>alert('Sign up successfully.');";
+            echo 'window.location= "signin/"';
+            echo '</script>';
         }
         else{
-        $req->session()->flash('register_status','This IC already exists.');
-        return redirect()->route('student.register');
+            echo "<script>alert('Password must match with confirm password.');";
+            echo 'window.location= "register/"';
+            echo '</script>';
         }
         }
-
-        function accept(Request $req){
-            $validatedData = $req->validate([
-            'ic' => 'required',
-            'password' => 'required'
-            ]);
-            
-            $result = DB::table('students')
-            ->where('ic',$req->input('ic'))
-            ->get();
-            
-            $res = json_decode($result,true);
-            print_r($res);
-            
-            if(sizeof($res)==0){
-            $req->session()->flash('error','IC does not exist. Please register yourself first');
-            echo "IC Does not Exist.";
-            return redirect('/');
+    
+        function accept(Request $request){
+            $this->validate($request, [
+                'ic'   => 'required',
+                'password'  => 'required'
+               ]);
+    
+               $ic = $request->input('ic');
+    
+               $rpassword = DB::table('students')->where('ic', $ic)->value('password');
+    
+            $password=$request->input('password');
+    
+            if($password==$rpassword){
+                session_start();
+                $_SESSION["signin"] = true;
+                $_SESSION["ic"] = $ic; 
+                echo "<script>alert('Login successfully.');";
+                echo 'window.location= "/home"';
+                echo '</script>';
             }
             else{
-            $encrypted_password = $result[0]->password;
-            $decrypted_password = crypt::decrypt($encrypted_password);
-            if($decrypted_password==$req->input('password')){
-            echo "You are logged in Successfully";
-            $req->session()->put('students',$result[0]->name);
-            return redirect()->route('student.home');
+                echo "<script>alert('Invalid username or password.');";
+                echo 'window.location= "/signin"';
+                echo '</script>';
             }
-            else{
-            $req->session()->flash('error','Password Incorrect!!!');
-            echo "IC Does not Exist.";
-            return redirect()->route('student.signin')->with('error', 'Please try again');
-            }
-            }
-            }
+}
 }

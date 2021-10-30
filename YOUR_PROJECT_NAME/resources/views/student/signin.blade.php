@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION["signin"]) && $_SESSION["signin"] === true){
+    header("location: /home");
+    exit;
+}
+?>
 @extends('master')
 @section('content')
 <html>

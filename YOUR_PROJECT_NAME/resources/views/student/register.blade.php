@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION["signin"]) && $_SESSION["signin"] === true){
+    header("location: /signin");
+    exit;
+}
+?>
 @extends('master')
 @section('content')
 <!DOCTYPE html> 
@@ -16,15 +23,7 @@
             <div class="d-flex justify-content-center h-100">
                 <div class="main">
                 <div class="regform"><h1>Registration</h1>
-                @if(Session::get('register_status'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{Session::get('register_status')}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-                </button>
-                </div>
-                @endif
-                <form method="post" action="/signin">
+                <form method="post" action="/register">
                 {{csrf_field()}}
                 <label for="ic"><b>IC</b></label>
                 <input class="form-control" name="ic" type="text" maxlength="12" required="true"/>
