@@ -94,7 +94,8 @@ if(!isset($_SESSION["signin"]) || $_SESSION["signin"] !== true){
         <br><br>
         <section>
             <div class="container">
-                <h3 style="color:#770115;">Profile</h3>
+                <h3 style="color:#770115; font-size:30px;">Profile</h3>
+                <p>&nbsp;<br>&nbsp;</p>
                 <div class="cards">
                     <div class="profile">
                     <h2 style="padding-bottom:10px;">Personal Information</h2>
@@ -146,13 +147,6 @@ if(!isset($_SESSION["signin"]) || $_SESSION["signin"] !== true){
                             <label for="phone"><b>Confirm New Password</b></label>
                             <input class="form-control" name="cnpass" type="password" maxlength="15" minlength="8" required="true" placeholder="Confirm New Password" oninput="check(this)"/>
                         </div>
-                        <script language='javascript' type='text/javascript'>
-                            if (f.formcheck.value != 'Blue') {
-                                alert('Please enter the correct word.')
-                                f.formcheck.focus()
-                                return false
-                            }
-                        </script>
                         <hr class="mb-3">
                         <div class="row-cols-sm-1">
                         <input class="btn btn-primary" id="update_password" type="submit" name="update_password" value="Change Password"/>
