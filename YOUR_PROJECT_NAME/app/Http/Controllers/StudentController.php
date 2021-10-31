@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 
 
@@ -110,6 +110,11 @@ class StudentController extends Controller
                 session_start();
                 $_SESSION["signin"] = true;
                 $_SESSION["ic"] = $ic; 
+                
+                $_SESSION["name"] = DB::table('students')->where('ic', $ic)->value('name');
+                $_SESSION["email"] = DB::table('students')->where('ic', $ic)->value('email');
+                $_SESSION["phoneno"] = DB::table('students')->where('ic', $ic)->value('phoneno');
+                
                 echo "<script>alert('Login successfully.');";
                 echo 'window.location= "/home"';
                 echo '</script>';
@@ -119,5 +124,61 @@ class StudentController extends Controller
                 echo 'window.location= "/signin"';
                 echo '</script>';
             }
+    }
+
+    public function update(Request $req){
+        session_start();
+        $con = mysqli_connect("localhost", "root", "", "laravel");
+
+        if(isset($_POST['update_data'])){
+            $c_ic = $_SESSION["ic"];
+            $c_name = $_POST['c_name'];
+            $c_email = $_POST['c_email'];
+            $c_phoneno = $_POST['c_phoneno'];
+
+            $query = "UPDATE students SET name='$c_name', email='$c_email', phoneno='$c_phoneno' WHERE ic='$c_ic'";
+            $query_run = mysqli_query($con, $query);
+
+            $_SESSION["name"] = $_POST['c_name'];
+            $_SESSION["email"] = $_POST['c_email'];
+            $_SESSION["phoneno"] = $_POST['c_phoneno'];
+
+            echo "<script>alert('Successfully Update Information');";
+            echo 'window.location= "profile/"';
+            echo '</script>';
 }
+    }
+
+    public function cpassword(Request $req){
+        session_start();
+        $con = mysqli_connect("localhost", "root", "", "laravel");
+
+        if(isset($_POST['update_password'])){
+            $password = DB::table('students')->where('ic', $_SESSION["ic"])->value('password');
+            $opass = $_POST["opass"];
+            $npass = $_POST['npass'];
+            $cnpass = $_POST['cnpass'];
+
+            if($password==$opass){
+                if($npass==$cnpass){
+                    $query = "UPDATE students SET password='$npass' WHERE password='$password'";
+                    $query_run = mysqli_query($con, $query);
+                    echo "<script>alert('Password Changed Successfully');";
+                    echo 'window.location= "profile/"';
+                    echo '</script>';
+                }
+                else{
+                    echo "<script>alert('Password must match with confirm password.');";
+                    echo 'window.location= "profile/"';
+                    echo '</script>';
+                }            
+            }                
+            else{
+                echo "<script>alert('Invalid Old Password');";
+                echo 'window.location= "profile/"';
+                echo '</script>';
+            }
+        }
+    }
+
 }

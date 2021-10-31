@@ -35,6 +35,9 @@ if(!isset($_SESSION["signin"]) || $_SESSION["signin"] !== true){
         <a class="nav-link" href="{{route('student.contact')}}">Contact Us<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
+        <a class="nav-link" href="{{route('student.profile')}}">Profile<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
       <a href="{{route('student.logout')}}" onclick='return alertFunction();'>Log Out</a>
       </li>
     </ul>

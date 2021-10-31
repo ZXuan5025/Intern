@@ -28,10 +28,16 @@ Route::any('home/', [StudentController::class,'home']);
 
 Route::any('/','App\Http\Controllers\StudentController@accept');
 Route::any('register/','App\Http\Controllers\StudentController@store');
+Route::post('/update',[StudentController::class, 'update']);
+Route::post('/change_password',[StudentController::class, 'cpassword']);
 
 Route::get('signin',function(){
     return view('student.signin');
 })->name('student.signin');
+
+Route::get('profile',function(){
+    return view('student.profile');
+})->name('student.profile');
 
 Route::get('register',function(){
     return view('student.register');
