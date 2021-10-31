@@ -83,6 +83,11 @@ class StudentController extends Controller
             $_SESSION["signin"] = true;
             $_SESSION["ic"] = $ic; 
         DB::table('students')->insert($data);
+        
+        $_SESSION["name"] = DB::table('students')->where('ic', $ic)->value('name');
+        $_SESSION["email"] = DB::table('students')->where('ic', $ic)->value('email');
+        $_SESSION["phoneno"] = DB::table('students')->where('ic', $ic)->value('phoneno');
+
         echo "<script>alert('Sign up successfully.');";
             echo 'window.location= "signin/"';
             echo '</script>';
@@ -146,7 +151,7 @@ class StudentController extends Controller
             echo "<script>alert('Successfully Update Information');";
             echo 'window.location= "profile/"';
             echo '</script>';
-}
+        }
     }
 
     public function cpassword(Request $req){
@@ -178,6 +183,24 @@ class StudentController extends Controller
                 echo 'window.location= "profile/"';
                 echo '</script>';
             }
+        }
+    }
+
+    public function delete(Request $req){
+        session_start();
+        $con = mysqli_connect("localhost", "root", "", "laravel");
+
+        if(isset($_POST['delete'])){
+            $ic = $_SESSION["ic"];
+
+            $query = "DELETE FROM students WHERE ic='$ic'";
+            $query_run = mysqli_query($con, $query);
+
+            $_SESSION["signin"] = false;
+
+            echo "<script>alert('Account Deleted');";
+            echo 'window.location= "/signin"';
+            echo '</script>';
         }
     }
 

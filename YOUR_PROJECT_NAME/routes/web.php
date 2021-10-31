@@ -30,6 +30,7 @@ Route::any('/','App\Http\Controllers\StudentController@accept');
 Route::any('register/','App\Http\Controllers\StudentController@store');
 Route::post('/update',[StudentController::class, 'update']);
 Route::post('/change_password',[StudentController::class, 'cpassword']);
+Route::post('/delete',[StudentController::class, 'delete']);
 
 Route::get('signin',function(){
     return view('student.signin');

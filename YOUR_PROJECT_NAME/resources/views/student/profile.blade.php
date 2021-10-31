@@ -52,6 +52,20 @@ if(!isset($_SESSION["signin"]) || $_SESSION["signin"] !== true){
             input[type=submit]:hover {
                 background-color: #45a049;
             }
+            input.delete[type=submit] {
+                width: 200px;
+                background-color: #DF1F1F;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+
+            input.delete[type=submit]:hover {
+                background-color: #BD1919;
+            }
             input[type=reset] {
                 width: 200px;
                 background-color: #FFDE33;
@@ -153,7 +167,22 @@ if(!isset($_SESSION["signin"]) || $_SESSION["signin"] !== true){
                         </div>
                         </div>
                    </form>
+                   <p>&nbsp;</p>
+                   <div class="profile">
+                    <h2 style="padding-bottom:10px;">Delete Account</h2>
+                   <form action="{{url('delete')}}" method="post">
+                        @csrf
+                        <hr class="mb-3">
+                        <div class="row-cols-sm-1">
+                        <p style="color:red;">*Please note that there are no ways to restore your deleted account*</p>
+                        <br>
+                        <input class="delete" id="delete" type="submit" name="delete" value="Delete Account"/>
+                        </div>
+                        </div>
+                   </form>
                 </div>
+                </div>
+                
             </div>  
             
             </div>
