@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
+use Illuminate\Support\Facades\Hash;
 
 
 class StudentController extends Controller
@@ -78,7 +79,7 @@ class StudentController extends Controller
         $cpassword = $request->input('cPassword');
         
         if($password==$cpassword){
-        $data=array('ic'=>$ic,"name"=>$name,"email"=>$email,"phoneno"=>$phoneno,"password"=>$password);
+        $data=array('ic'=>$ic,"name"=>$name,"email"=>$email,"phoneno"=>$phoneno,"password"=>Hash::make($password));
         session_start();
             $_SESSION["signin"] = true;
             $_SESSION["ic"] = $ic; 
@@ -111,7 +112,7 @@ class StudentController extends Controller
     
             $password=$request->input('password');
     
-            if($password==$rpassword){
+            if(Hash::check($password, $rpassword)){
                 session_start();
                 $_SESSION["signin"] = true;
                 $_SESSION["ic"] = $ic; 
@@ -164,8 +165,9 @@ class StudentController extends Controller
             $npass = $_POST['npass'];
             $cnpass = $_POST['cnpass'];
 
-            if($password==$opass){
+            if(Hash::check($opass, $password)){
                 if($npass==$cnpass){
+                    $npass = Hash::make($npass);
                     $query = "UPDATE students SET password='$npass' WHERE password='$password'";
                     $query_run = mysqli_query($con, $query);
                     echo "<script>alert('Password Changed Successfully');";
