@@ -35,7 +35,7 @@ if(isset($_SESSION["signin"]) && $_SESSION["signin"] === true){
                 <input class="form-control" name="email" type="email" maxlength="50" required="true"/>
 
                 <label for="phone"><b>Phone Number</b></label>
-                <input class="form-control" name="phoneno" type="text" maxlength="11" required="true"/>
+                <input class="form-control" name="phoneno" type="text" required="true"/>
                 
                 <label for="password"><b>Password</b></label>
                 <input class="form-control" name="password" type="password" maxlength="15" minlength="8" required="true"/>
