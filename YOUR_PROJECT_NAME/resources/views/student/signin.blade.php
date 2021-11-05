@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION["signin"]) && $_SESSION["signin"] === true){
+    header("location: /home");
+    exit;
+}
+?>
 @extends('master')
 @section('content')
 <html>
@@ -16,17 +23,16 @@
         </div>      
         </div>
             <div class="d-flex justify-content-center form_container">
-            @if(\Session::has('success'))
-                 <div class="alert alert-success">
-                     <p>{{ \Session::get('success') }}</p>
-                    </div>
-                    @endif
-                <form method="post" action="/register">
+            @if(Session::get('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{Session::get('error')}}
+            @endif
+                <form method="post" action="/">
                 {{csrf_field()}}
                     <label for="ic"><b>IC</b></label>    
                     <div class="input-group mb-3">
                         <input class="form-control" type="text" name="ic" placeholder="eg: xxxxxxxx" required="true" maxlength="12">
-                    </div>
+                    </div>               
                     <label for="password"><b>Password</b></label>
                     <div class="input-group mb-3">
                         <input class="form-control" type="password" name="password" placeholder="Your Password" required="true"  minlength="8" maxlength="15">
@@ -41,5 +47,6 @@
                 </div>
             </div>
         </div>
+        @endsection
     </body>
 </html>

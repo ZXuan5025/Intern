@@ -14,21 +14,20 @@ use App\Http\Controllers\StudentController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 Route::resource('student', StudentController::class);
 
-Route::group(['middleware'=>'customAuth'],function(){
-Route::post('register/', [StudentController::class,'home']);
+//Route::post('register/', [StudentController::class,'accept']);
 
-//Route::get('student.register', 'StudentController@register')->name('student.register');
+Route::any('home/', [StudentController::class,'home']);
 
-Route::post('signin/', [StudentController::class,'register']);
+//Route::get('register', [StudentController::class,'register']);
 
-Route::post('home/', [StudentController::class,'home']);
+//Route::post('/',[StudentController::class,'accept']);
 
-Route::get('register', [StudentController::class,'signin']);
-});
+//Route::post('signin/', [StudentController::class,'store']);
+
+Route::any('/','App\Http\Controllers\StudentController@accept');
+Route::any('register/','App\Http\Controllers\StudentController@store');
 
 Route::get('signin',function(){
     return view('student.signin');
@@ -41,3 +40,11 @@ Route::get('register',function(){
 Route::get('home',function(){
     return view('student.home');
 })->name('student.home');
+
+Route::get('contact',function(){
+    return view('student.contact');
+})->name('student.contact');
+
+Route::any('logout', function () {
+    return view('student.logout');
+})->name('student.logout');
